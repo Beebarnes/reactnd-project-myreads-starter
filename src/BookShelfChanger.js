@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 function BookShelfChanger(props) {
     return (
                 <div className="book-shelf-changer">
-                    <select>
+                    <select onClick={(e) => props.bookStateHandler(e, props.bookTitle)}>
                     <option value="move" disabled>Move to...</option>
                     <option value="currentlyReading">Currently Reading</option>
                     <option value="wantToRead">Want to Read</option>

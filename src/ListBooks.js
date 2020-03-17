@@ -11,8 +11,8 @@ function ListBooks(props) {
             </div>
             <div className="list-books-content">
                 {props.shelves.map((shelf) => (
-                    <div>
-                        <Bookshelf books={props.books} shelf={shelf}/>
+                    <div key={shelf.shelf}>
+                        <Bookshelf books={props.books} shelf={shelf} bookStateHandler={props.bookStateHandler}/>
                     </div>
                 ))}
             </div>

@@ -36,7 +36,18 @@ class BooksApp extends React.Component {
       })
   }
 
+  bookStateHandler = (event, bookTitle) => {
+    let newBookState = event.target.value;
+    let newBooks = [...this.state.books];
+    let book = newBooks.filter(book => book.title === bookTitle);
+    console.log(book);
+    book[0].shelf = newBookState;
+    console.log(book);
+    this.setState({books : newBooks})
+  };
+
   render() {
+
     return (
       <div className="app">
         {this.state.showSearchPage ? (
@@ -62,7 +73,9 @@ class BooksApp extends React.Component {
           </div>
         ) : (
           <Route exact path='/' render={() => (
-            <ListBooks books={this.state.books} shelves={this.state.shelves} />
+            <div>
+            <ListBooks books={this.state.books} shelves={this.state.shelves} bookStateHandler={this.bookStateHandler}/>
+            </div>
           )}
           />
           
