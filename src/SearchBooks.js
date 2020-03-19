@@ -1,9 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { checkPropTypes } from 'prop-types';
 import Book from './Book';
 
 function SearchBooks(props) {
+    let books = props.books;
+    books.forEach(book => {
+        if (book.authors === undefined){
+            book.authors = [' '];
+        }
+    })
     return (
         <div className="search-books">
             <div className="search-books-bar">
@@ -24,11 +29,13 @@ function SearchBooks(props) {
             </div>
             <div className="search-books-results">
                 <ol className="books-grid">
-                    {props.books.map((book, index) => ( book.title.includes(props.searchInput) ? 
+                    {books.map((book, index) => ( 
+                        (book.title.includes(props.searchInput) || book.authors.filter(author => author.includes(props.searchInput))) &&
+                        props.searchInput.length > 0 ?
                         <li key={index}>
                             <Book book={book} bookStateHandler={props.bookStateHandler}/>
                         </li> : null
-                    ))}   
+                    ))}
                 </ol>
             </div>
         </div>

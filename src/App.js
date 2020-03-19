@@ -8,6 +8,7 @@ import SearchBooks from './SearchBooks'
 class BooksApp extends React.Component {
   state = {
     books: [],
+    searchBooks: [],
     shelves: [
       {
         shelf: 'currentlyReading',
@@ -39,13 +40,29 @@ class BooksApp extends React.Component {
     let newBookState = event.target.value;
     let newBooks = [...this.state.books];
     let book = newBooks.filter(book => book.title === bookTitle);
+    if (book.length === 0) {
+      let searchBooks = [...this.state.searchBooks];
+      book = searchBooks.filter(book => book.title === bookTitle)
+    }
     book[0].shelf = newBookState;
+    newBooks.push(book);
+    BooksAPI.update(book[0], newBookState)
     this.setState({books : newBooks})
   };
 
   searchStateHandler = (event) => {
-    let newSearchInput = this.state.searchInput;
-    this.setState({searchInput: event.target.value})
+    let query = event.target.value;
+    if (query) {
+      BooksAPI.search(query)
+        .then(searchBooks => {
+          if (searchBooks.length > 0){
+            this.setState({searchBooks})
+          }
+        })
+    } else {
+        this.setState({searchbooks : []})
+      }       
+    this.setState({searchInput: query})
   }
 
   render() {
@@ -53,7 +70,7 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route path='/search' render={() => (
-          <SearchBooks books={this.state.books} searchInput={this.state.searchInput} searchStateHandler={this.searchStateHandler} bookStateHandler={this.bookStateHandler} />
+          <SearchBooks books={this.state.searchBooks} searchInput={this.state.searchInput} searchStateHandler={this.searchStateHandler} bookStateHandler={this.bookStateHandler} />
         )}
         />
         <Route exact path='/' render={() => (

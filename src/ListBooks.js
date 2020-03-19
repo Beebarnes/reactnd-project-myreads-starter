@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Bookshelf from './Bookshelf'
-import { checkPropTypes } from 'prop-types';
 
 function ListBooks(props) {
     return (

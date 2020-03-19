@@ -1,9 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import BookShelfChanger from './BookShelfChanger'
 
 function Book(props) {
-    let backgroundImage = `url(${props.book.imageLinks.thumbnail})`
+    let backgroundImage = ''
+    if (props.book.imageLinks){
+        backgroundImage = `url(${props.book.imageLinks.thumbnail})` || `url(${props.book.imageLinks.smallThumbnail})`
+    } else {
+        backgroundImage = `url(https://via.placeholder.com/150)`
+    }
     return (
         <div>
             <div className="book">
@@ -12,7 +16,10 @@ function Book(props) {
                     <BookShelfChanger bookTitle={props.book.title} bookStateHandler={props.bookStateHandler}/>
                 </div>
                 <div className="book-title">{props.book.title}</div>
-                <div className="book-authors">{props.book.author}</div>
+                <div className="book-authors"> {props.book.authors ? props.book.authors.map( (author, index) => (
+                    <p key={index}>{author}</p>
+                )) : null }
+                </div>
             </div>
         </div>
         
